@@ -55,7 +55,7 @@
   .header {
     position: absolute;
     top: 0;
-    background: #0b0d10;
+    background: #0044aa;
     width: 100%;
     min-height: 80px;
     text-align: center;
@@ -80,7 +80,7 @@
   }
   
   /* STYLES */
-  .balance-number--special{
+  .balance-number-special{
     color: red;
     font-size: 3rem;
     font-weight: bold;
@@ -98,7 +98,7 @@
   .logo > span {
     font-weight: 400;
     font-style: italic;
-    color: #0072e4;
+    color: #0ba0c2;
   }
   
   .top {
@@ -123,7 +123,7 @@
     font-weight: 700;
   }
   
-  .balance-number--special {
+  .balance-number-special {
     color: red;
     font-size: 50px;
     font-weight: 800;
@@ -216,22 +216,22 @@
     cursor: pointer;
   }
   
-  .transaction--income {
+  .transaction-income {
     border-right: green 5px solid;
   }
   
-  .transaction--expense {
+  .transaction-expense {
     border-right: red 5px solid;
   }
   
-  .transaction__text {
-  }
+  /* .transaction__text {
+  } */
   
-  .transaction__amount {
+  .transaction_amount {
     margin-left: auto;
   }
   
-  .transaction__btn {
+  .transaction_btn {
     position: absolute;
     top: 50%;
     left: 50%;
@@ -244,6 +244,6 @@
     color: #ffffffdb;
   }
   
-  .transaction:hover .transaction__btn {
+  .transaction:hover .transaction_btn {
     transform: translate(-50%, -50%);
   }

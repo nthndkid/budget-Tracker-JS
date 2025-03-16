@@ -1,123 +1,100 @@
-const balance = 5000;
-const description = 'Salary';
-const newTransaction = true;
+const transactionEl = document.querySelector('.transactions');
+const balanceNumber = document.querySelector('.balance-number');
+const incomeNumber = document.querySelector('.number-income');
+const expensesNumber = document.querySelector('.number-expenses');
 
-// const balanceNumberEl = document.querySelector('.balance-number');
-// balanceNumberEl.textContent = balance;
-const text = 'Hello';
-const salary = 2000;
-const isExpense = false;
-const expenses = [1000, 30, 25];
-const transaction = {
-    description : 'Salary',
-    amount : 4000
-}
-transaction.description = 'Worker';
+// form variables
+const formEl = document.querySelector('.form');
+const descriptionInput = document.querySelector('.input-description');
+const amountInput = document.querySelector('.input-amount');
 
-const error = {
-    description: 'Not Found',
-    statusCode: 404,
-    retry: false
-};
-console.log(error);
+// function for form features
+const formHandler = (event) => {
+    // prevent default behavior
+    event.preventDefault();
 
-// function shortcut
-// function calculateBalance(income, expense) {
-//     return income - expense;
-// };
+    // get input values
+    const description = descriptionInput.value;
+    const amount = +amountInput.value;
+    console.log(description, amount);
 
-// one line function
-const calculateBalance = (income, expense) => income - expense;
+    // create transaction item
+    const transactionItem = `
+        <li class="transaction transaction-${amount > 0 ? 'income' : 'expense'}">
+            <span class="transaction_text">${description}</span>
+            <span class="transaction_amount">${amount > 0 ? '+' : ''} ${amount}</span>
+            <button class="transaction_btn">X</button>
+        </li>
+    `;
 
-// function declaration
-// function calculateBalance(income, expense) {
-//     // const income = 5000;
-//     // const expense = 1000;
-//     const balance = income - expense;
-//     return balance
-//     // console.log(balance);
-// };
+    // append transaction item
+    transactionEl.insertAdjacentHTML('beforeend', transactionItem);
 
-// function expression
-// var calculateBalance = function(income, expense) {
-//     const balance = income - expense;
-//     return balance;
-// };
+    // clear form inputs
+    descriptionInput.value = '';
+    amountInput.value = '';
 
-// arrow function
-// const calculateBalance = (income, expense) => {
-//     const balance = income - expense;
-//     return balance;
-// };
+    // blur the input when submitted
+    descriptionInput.blur();
+    amountInput.blur();
 
-// calculateBalance(10000, 1000);
-const result = calculateBalance(10000, 5000);
-console.log(result);
+    // update income or expense
+    if (amount > 0) {
+        // if positive update income
+        const currentIncome = +incomeNumber.textContent;
+        const updatedIncome = currentIncome + amount;
+        incomeNumber.textContent = updatedIncome;
+    } else {
+        // if negative update expense
+        const currentExpense = +expensesNumber.textContent; 
+        const updatedExpense = currentExpense + (amount * -1);
+        expensesNumber.textContent = updatedExpense;
+    }
 
-// DOM Manipulation
-document.getElementById('add').addEventListener("click", function(){
-    // const changeNum = document.querySelector('.balance-number')
-    // changeNum.textContent = "Insufficient Balance"
-
-    // alert(error.description + " " + error.statusCode);
-});
-
-// change heading DOM
-// const headingEl = document.querySelector('.first-heading');
-// headingEl.textContent = "Welcome to the Bank";
-
-// click event listner DOM
-// const balanceEl = document.querySelector('.balance-number');
-// balanceEl.addEventListener('click', function clickHandler(){
-//     const balance = 5000 - 2000
-//     balanceEl.textContent = balance
-//     console.log(balance)
-// });
-
-// change css style DOM
-// const balanceEl = document.querySelector('.balance-number');
-// balanceEl.addEventListener('click', () => {
-//     balanceEl.classList.add('balance-number--special')
-//     // balanceEl.style.color = 'red'
-//     // balanceEl.style.fontSize = '5rem'
-//     // balanceEl.style.fontWeight = '800'
-// });
-
-// change html tag DOM
-const balanceEl = document.querySelector('.balance-number');
-// balanceEl.innerHTML = '<span class="special">Unavailable</span>';
-// balanceEl.textContent = 'Unavailable';
-// balanceEl.insertAdjacentHTML('beforeend', '<span>2000</span>');
-
-console.log(b);
-var b = 200;
-console.log(b);
-
-// String concatenation vs Template literals
-// const balanceText = `Your Remaining Balance is ${b}`;
-// const bText = `
-//     <li>
-//         <span>${description}</span>
-//     <li>
-//     `;
-// console.log(balanceText);
-
-// control flow modified if-else ternary operator
-// if b(var) > 0 then positive else negative
-b > 0 ? console.log('Positive') : console.log('Negative');
-
-const incomes = [5000, 2000, 10, 300, 40];
-
-for (let i = 0; i < incomes.length; i++) {
-    const element = incomes[i];
-    console.log(element + '-' + i)
+    // update balance
+    const incomeBalance = +incomeNumber.textContent;
+    const expenseBalance = +expensesNumber.textContent;
+    const updatedBalance = incomeBalance - expenseBalance;
+    balanceNumber.textContent = updatedBalance
 }
 
-// incomes.forEach((income) => {
-//     let i = 1
-//     console.log(income + " " + i);
-//     i++
-// });
+formEl.addEventListener('submit', formHandler); 
 
-// arrow function for loop
-// incomes.forEach(income => console.log(income + 10));
+const clickHandler = (event) => {
+    // Remove Transaction
+    const clickedEl = event.target.parentNode;
+    clickedEl.remove();
+
+    // Update Expense and Income
+    const amountEl = clickedEl.querySelector('.transaction_amount');
+    const amount = +amountEl.textContent;
+
+    // Check if the amount is Positive and Negative
+    if (amount > 0) {
+        // if positive update income
+        const currentIncome = +incomeNumber.textContent;
+        const updatedIncome = currentIncome - amount;
+        incomeNumber.textContent = updatedIncome;
+    } else {
+        // if negative update expense
+        const currentExpense = +expensesNumber.textContent; 
+        const updatedExpense = currentExpense - (amount * -1);
+        expensesNumber.textContent = updatedExpense;
+    }
+
+    // update balance
+    const expenseBalance = +expensesNumber.textContent;
+    const incomeBalance = +incomeNumber.textContent;
+
+    balanceNumber.textContent = incomeBalance - expenseBalance;
+
+    if (incomeBalance - expenseBalance < 0) {
+        balanceNumber.style.color = 'red';
+    } else if (incomeBalance - expenseBalance == 0) {
+        balanceNumber.style.color = 'black';
+    }
+        console.log(balanceNumber)
+}
+
+// don't put () in func so it will run only when click happens
+transactionEl.addEventListener('click', clickHandler);
